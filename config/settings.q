@@ -5,3 +5,5 @@ hdbLocation:`:.;
 hdbPort:34567;
 txidLocation:`$string[hdbLocation],"/txidLookup";
 addressLocation:`$string[hdbLocation],"/addressLookup";
+rpcUsername:""
+rpcPassword:""
