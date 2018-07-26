@@ -1,0 +1,21 @@
+blocks:([]
+        hash:();
+        confirmations:`float$();
+        strippedsize:`float$();
+        size:`float$();
+        weight:`float$();
+        height:`long$();
+        version:`short$();
+        versionHex:();
+        merkleroot:();
+	tx:();
+        time:();
+        mediantime:();
+        nonce:`float$();
+        bits:();
+        difficulty:`float$();
+        chainwork:();
+        previousblockhash:();
+        nextblockhash:()
+ );
+
