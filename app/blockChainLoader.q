@@ -1,7 +1,23 @@
-.utl.require "qbitcoind"
-.utl.require getenv[`BLOCK_HOME]
-.bitcoind.initPass[rpcUsername;rpcPassword]
+// Load the required qbitcoind library
+// If .utl namespace is present then assume it can be loaded using the qutil library
+//`utl in key`
+$[0b;
+  [
+    -1 "Loading qbitcoind library using qutil package";
+    @[.utl.require;"qbitcoind";{[err] -1 "Failed to load qbitcoind using qutil library:",err;exit 1}]
+  ]; 
+  [
+    -1 "Loading qbitcoind library using load.q";
+    @[value;"\\l ",getenv[`QBITCOIND_HOME],"/lib/load.q";{[err] -1 "Failed to load qbitcoind using qutil library:",err;exit 1}]
+  ]
+ ];
 
+
+-1 "Loading required table schemas, config settings and source files";
+@[value;"\\l ",getenv[`BLOCK_HOME],"/lib/load.q";{[err] -1 "Failed to load required q files::",err;exit 1}];
+
+
+.bitcoind.initPass[rpcUsername;rpcPassword]
 hdbHandle:hopen hdbPort;
 index:startIndex;
 
