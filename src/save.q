@@ -9,7 +9,7 @@ saveAddressLookup:{[Location;tbl]
       [
         -1"Appending to addressLookup table";
         list:exec distinct addresses from addressLookup;
-        old:h({0!select from addressLookup where addresses in x};list);
+        old:hdbHandle({0!select from addressLookup where addresses in x};list);
         tmpTable:(0!tbl),old;
         tmpTable:select raze height,raze partition by addresses from tmpTable;
         Location upsert tmpTable
