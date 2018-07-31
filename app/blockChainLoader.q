@@ -1,7 +1,6 @@
 // Load the required qbitcoind library
 // If .utl namespace is present then assume it can be loaded using the qutil library
-//`utl in key`
-$[0b;
+$[`utl in key`;
   [
     -1 "Loading qbitcoind library using qutil package";
     @[.utl.require;"qbitcoind";{[err] -1 "Failed to load qbitcoind using qutil library:",err;exit 1}]
