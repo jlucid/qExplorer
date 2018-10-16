@@ -7,7 +7,7 @@ $[`utl in key`;
   ]; 
   [
     -1 "Loading qbitcoind library using load.q";
-    @[value;"\\l ",getenv[`QBITCOIND_HOME],"/lib/load.q";{[err] -1 "Failed to load qbitcoind using qutil library:",err;exit 1}]
+    @[value;"\\l ",getenv[`QBITCOIND_HOME],"/lib/bitcoind.q";{[err] -1 "Failed to load qbitcoind using qutil library:",err;exit 1}]
   ]
  ];
 
