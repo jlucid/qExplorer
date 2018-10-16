@@ -43,24 +43,8 @@ saveTransactionInputs:{[Block]
   inputs:inputs lj update spent:1b from historicalUTXO;
   inputs:update address:@[address;where 0h=type each address;raze/] from inputs;
   inputs:coinbase,:delete txuid from inputs;
-  insert[`addressLookup;select address,height,partition:heightToPartition[index;lookupChunkSize],parted:`$2#'address from inputs where not address like ""];
+  insert[`addressLookup;select address,height,partition:heightToPartition[index;lookupChunkSize],parted:`$-2#'address from inputs where not address like ""];
   insert[`txInputs;inputs];
- }
-
-saveTxidLookup:{[Location]
- -1(string .z.p)," Creating txidLookup table";
- $[()~key Location;
-   Location set select txid,height:`int$height from txInfo;
-   Location upsert select txid,height:`int$height from txInfo
- ];
- }
-
-saveAddressLookup:{[Location]
- -1(string .z.p)," Creating addressLookup table";
- $[()~key Location;
-   Location set ((select address,height:`int$height from txOutputs where not address like ""),select address,height:`int$height from txInputs where not address like "");
-   Location upsert ((select address,height:`int$height from txOutputs where not address like ""),select address,height:`int$height from txInputs where not address like "")
- ];
  }
 
 updateUTXO:{[]
