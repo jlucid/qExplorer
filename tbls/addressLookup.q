@@ -1,5 +1,5 @@
-addressLookup:([]`u#addresses:();
-             height:();
-             partition:()
+addressLookup:([] address:();
+             height:`long$();
+             partition:`int$();
+             parted:`symbol$()
  )
-
