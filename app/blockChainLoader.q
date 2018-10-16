@@ -17,29 +17,36 @@ $[`utl in key`;
 
 
 .bitcoind.initPass[rpcUsername;rpcPassword]
-hdbHandle:hopen hdbPort;
 index:startIndex;
 
+
 // Function called on a timer to process a block
+// Currently every 10 (chunkSize) blocks we save to disk and clear out tables
 processBlock:{[Hash]
-  Block:.bitcoind.getblock[Hash;2];
+  Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
   saveBlockInfo[Block];
-  trans:saveTransactionInfo[Block];
-  saveTransactionInputs[trans];
+  saveTransactionInfo[Block];
   saveTransactionOutputs[Block];
+  saveTransactionInputs[Block];
   if[writeFreq~1f+(Block[`result][`height] mod writeFreq);
-   saveParted[hdbLocation;heightToPartition[index];`height;] each (`blocks`txInfo`txInputs`txOutputs);
-   saveTxidLookup[txidLocation;txidLookup];
-   saveAddressLookup[addressLocation;addressLookup];
+   updateUTXO[];
+   saveParted[hdbLocation;heightToPartition[index;chunkSize];`height;] each `blocks`txInfo`txInputs`txOutputs;
+   saveParted[lookupLocation;heightToPartition[index;lookupChunkSize];`height;] each `txidLookup`addressLookup;
    @[`.;;0#] each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
-   update `u#txid from `txidLookup;
-   update `u#addresses from `addressLookup;   
-  .Q.gc[];
   ];
   if[chunkSize~1f+(Block[`result][`height] mod chunkSize);
-   {[Tbl;Ix] @[.Q.par[hdbLocation;heightToPartition[Ix];Tbl];`height;`p#]}[;index] each `blocks`txInfo`txInputs`txOutputs
+    utxoLocation set historicalUTXO;
+    {[Tbl;Ix] @[.Q.par[hdbLocation;heightToPartition[Ix;chunkSize];Tbl];`height;`p#]}[;index] each `blocks`txInfo`txInputs`txOutputs;
+    0N!.Q.gc[];
+    0N!.Q.w[];
+  ];
+  if[lookupChunkSize~1f+(Block[`result][`height] mod lookupChunkSize);
+    sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`txidLookup;`parted];
+    sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`addressLookup;`parted];
+    {[Tbl;Ix] @[.Q.par[lookupLocation;heightToPartition[Ix;lookupChunkSize];Tbl];`parted;`p#]}[;index] each `txidLookup`addressLookup
   ];
  }
+
 
 // Timer function - Checks for new blocks to process
 .z.ts:{[]
