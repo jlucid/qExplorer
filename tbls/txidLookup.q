@@ -1,5 +1,5 @@
-txidLookup:([txid:`u#()];
-             height:`float$();
-             partition:`int$()
+txidLookup:([]txid:();
+             height:`long$();
+             partition:`int$();
+             parted:`symbol$()
  )
-
