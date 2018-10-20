@@ -1,3 +1,4 @@
+
 // Function used to store block data into the blocks schema
 // For the first block, 0, we need to add a value for previousblockhash because its not present
 // We remove the tx info before inserting
@@ -46,6 +47,7 @@ saveTransactionInputs:{[Block]
   insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],parted:`$-2#'address from inputs where not address like ""];
   insert[`txInputs;inputs];
  }
+
 
 updateUTXO:{[]
   -1(string .z.p)," Updating UTXO table";
