@@ -30,20 +30,19 @@ processBlock:{[Hash]
   saveTransactionInputs[Block];
   if[writeFreq~1f+(Block[`result][`height] mod writeFreq);
    updateUTXO[];
-   saveParted[hdbLocation;heightToPartition[index;chunkSize];`height;] each `blocks`txInfo`txInputs`txOutputs;
-   saveParted[lookupLocation;heightToPartition[index;lookupChunkSize];`height;] each `txidLookup`addressLookup;
-   @[`.;;0#] each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
+   saveSplayed[hdbLocation;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
+   saveSplayed[lookupLocation;heightToPartition[index;lookupChunkSize];] each `txidLookup`addressLookup;
+   clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup
   ];
   if[chunkSize~1f+(Block[`result][`height] mod chunkSize);
     utxoLocation set historicalUTXO;
-    {[Tbl;Ix] @[.Q.par[hdbLocation;heightToPartition[Ix;chunkSize];Tbl];`height;`p#]}[;index] each `blocks`txInfo`txInputs`txOutputs;
-    0N!.Q.gc[];
-    0N!.Q.w[];
+    applyAttribute[hdbLocation;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
+    memoryInfo[]
   ];
   if[lookupChunkSize~1f+(Block[`result][`height] mod lookupChunkSize);
     sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`txidLookup;`parted];
     sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`addressLookup;`parted];
-    {[Tbl;Ix] @[.Q.par[lookupLocation;heightToPartition[Ix;lookupChunkSize];Tbl];`parted;`p#]}[;index] each `txidLookup`addressLookup
+    applyAttribute[lookupLocation;heightToPartition[index;lookupChunkSize];;`parted;`p#] each `txidLookup`addressLookup
   ];
  }
 
