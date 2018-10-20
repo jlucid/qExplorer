@@ -28,18 +28,18 @@ processBlock:{[Hash]
   saveTransactionInfo[Block];
   saveTransactionOutputs[Block];
   saveTransactionInputs[Block];
-  if[writeFreq~1f+(Block[`result][`height] mod writeFreq);
+  if[writeFreq~1f+(index mod writeFreq);
    updateUTXO[];
    saveSplayed[hdbLocation;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
    saveSplayed[lookupLocation;heightToPartition[index;lookupChunkSize];] each `txidLookup`addressLookup;
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup
   ];
-  if[chunkSize~1f+(Block[`result][`height] mod chunkSize);
+  if[chunkSize~1f+(index mod chunkSize);
     utxoLocation set historicalUTXO;
     applyAttribute[hdbLocation;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
     memoryInfo[]
   ];
-  if[lookupChunkSize~1f+(Block[`result][`height] mod lookupChunkSize);
+  if[lookupChunkSize~1f+(index mod lookupChunkSize);
     sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`txidLookup;`parted];
     sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`addressLookup;`parted];
     applyAttribute[lookupLocation;heightToPartition[index;lookupChunkSize];;`parted;`p#] each `txidLookup`addressLookup
