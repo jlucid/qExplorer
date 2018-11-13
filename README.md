@@ -1,3 +1,3 @@
-# qblockChainLoader
+# qExplorer
 
 Usage:
