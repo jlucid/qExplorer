@@ -1,24 +1,18 @@
-// Load the required qbitcoind library
-// If .utl namespace is present then assume it can be loaded using the qutil library
-$[`utl in key`;
-  [
-    -1 "Loading qbitcoind library using qutil package";
-    @[.utl.require;"qbitcoind";{[err] -1 "Failed to load qbitcoind using qutil library:",err;exit 1}]
-  ]; 
-  [
-    -1 "Loading qbitcoind library using load.q";
-    @[value;"\\l ",getenv[`QBITCOIND_HOME],"/lib/bitcoind.q";{[err] -1 "Failed to load qbitcoind using qutil library:",err;exit 1}]
-  ]
- ];
+.utl.require"qbitcoind"
+.utl.require"qExplorer"
 
-
--1 "Loading required table schemas, config settings and source files";
-@[value;"\\l ",getenv[`BLOCK_HOME],"/lib/load.q";{[err] -1 "Failed to load required q files::",err;exit 1}];
-
+\t 100
+\p 54354
+\g 1
+\c 20 150
+\P 12
+.z.zd:(17;2;6);
 
 .bitcoind.initPass[rpcUsername;rpcPassword]
 index:startIndex;
 
+characters:"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+enumerations:`$characters cross characters;
 
 // Function called on a timer to process a block
 // Currently every 10 (chunkSize) blocks we save to disk and clear out tables
@@ -31,7 +25,8 @@ processBlock:{[Hash]
   if[writeFreq~1f+(index mod writeFreq);
    updateUTXO[];
    saveSplayed[hdbLocation;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
-   saveSplayed[lookupLocation;heightToPartition[index;lookupChunkSize];] each `txidLookup`addressLookup;
+   saveGroups[refdbLocation;`txidLookup;txidLookup];
+   saveGroups[refdbLocation;`addressLookup;addressLookup];
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup
   ];
   if[chunkSize~1f+(index mod chunkSize);
@@ -39,13 +34,12 @@ processBlock:{[Hash]
     applyAttribute[hdbLocation;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
     memoryInfo[]
   ];
-  if[lookupChunkSize~1f+(index mod lookupChunkSize);
-    sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`txidLookup;`parted];
-    sortTblOnDisk[lookupLocation;heightToPartition[index;lookupChunkSize];`addressLookup;`parted];
-    applyAttribute[lookupLocation;heightToPartition[index;lookupChunkSize];;`parted;`p#] each `txidLookup`addressLookup
+  if[applyGroupAttrFreq~1f+(index mod applyGroupAttrFreq);
+    applyAttribute[refdbLocation;;`txidLookup;`parted;`g#] each 1+til count enumerations;
+    applyAttribute[refdbLocation;;`addressLookup;`parted;`g#] each 1+til count enumerations;
+    (.Q.dd[refdbLocation]`enumerations) set enumerations
   ];
  }
-
 
 // Timer function - Checks for new blocks to process
 .z.ts:{[]
