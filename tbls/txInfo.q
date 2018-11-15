@@ -4,9 +4,9 @@ txInfo:([]
         hash:();
         size:`float$();
         vsize:`float$();
+        weight:`float$();
         locktime:`float$();
         vin:0Nj;
         vout:0Nj;
         hex:()
  );
-
