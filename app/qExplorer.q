@@ -24,20 +24,20 @@ processBlock:{[Hash]
   saveTransactionInputs[Block];
   if[writeFreq~1f+(index mod writeFreq);
    updateUTXO[];
-   saveSplayed[hdbLocation;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
-   saveGroups[refdbLocation;`txidLookup;txidLookup];
-   saveGroups[refdbLocation;`addressLookup;addressLookup];
+   saveSplayed[mainDB;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
+   saveGroups[refDB;`txidLookup;txidLookup];
+   saveGroups[refDB;`addressLookup;addressLookup];
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup
   ];
   if[chunkSize~1f+(index mod chunkSize);
-    utxoLocation set historicalUTXO;
-    applyAttribute[hdbLocation;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
+    utxoLocation set utxo;
+    applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
     memoryInfo[]
   ];
   if[applyGroupAttrFreq~1f+(index mod applyGroupAttrFreq);
-    applyAttribute[refdbLocation;;`txidLookup;`parted;`g#] each 1+til count enumerations;
-    applyAttribute[refdbLocation;;`addressLookup;`parted;`g#] each 1+til count enumerations;
-    (.Q.dd[refdbLocation]`enumerations) set enumerations
+    applyAttribute[refDB;;`txidLookup;`parted;`g#] each 1+til count enumerations;
+    applyAttribute[refDB;;`addressLookup;`parted;`g#] each 1+til count enumerations;
+    (.Q.dd[refDB]`enumerations) set enumerations
   ];
  }
 
