@@ -2,8 +2,15 @@ startIndex:0f;
 writeFreq:500f;
 chunkSize:1000f;
 applyGroupAttrFreq:50000f;
-hdbLocation:`:.;
-refdbLocation:`:.; // Should be different to hdbLocation
-utxoLocation:`$string[hdbLocation],"/utxo;
+
+// Location of mainDB and refDB
+// Locations need to be different
+
+mainDB:`:.;
+refDB:`:.; 
+utxoLocation:`$string[mainDB],"/utxo;
+
+// Credentials for JSON RPC
+
 rpcUsername:"";
 rpcPassword:"";
