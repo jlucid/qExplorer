@@ -24,12 +24,12 @@ saveTransactionOutputs:{[Block]
   outputs:update scriptPubKey:-8!'scriptPubKey from outputs;
   outputs:update address:@[address;where 0h=type each address;raze] from outputs;
   outputs:select height,txid,outputValue,address,n,scriptPubKey from outputs;
-  utxo:select txuid:(txid,'string[n]),inputValue:outputValue,address from outputs;
+  utxoData:select txuid:(txid,'string[n]),inputValue:outputValue,address from outputs;
   insert[`txOutputs;outputs];
   insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address from outputs where not address like ""];
-  upsert[`historicalUTXO;utxo];
-  update utxoIndex:i from `historicalUTXO;
-  -1(string .z.p)," UTXO Count: ",(string count historicalUTXO);
+  upsert[`utxo;utxoData];
+  update utxoIndex:i from `utxo;
+  -1(string .z.p)," UTXO Count: ",(string count utxo);
  }
 
 //Function to retrive all the inputs for each transaction
@@ -41,7 +41,7 @@ saveTransactionInputs:{[Block]
   if[1=count inputs;:insert[`txInputs;coinbase]];
   inputs:1_update txinwitness:@[txinwitness;where 0h=type each txinwitness;{";" sv x}] from inputs;
   inputs:update txuid:(prevtxid,'string[n]) from inputs;
-  inputs:inputs lj update spent:1b from historicalUTXO;
+  inputs:inputs lj update spent:1b from utxo;
   inputs:update address:@[address;where 0h=type each address;raze/] from inputs;
   inputs:coinbase,:delete txuid from inputs;
   insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address from inputs where not address like ""];
@@ -51,11 +51,11 @@ saveTransactionInputs:{[Block]
 
 updateUTXO:{[]
   -1(string .z.p)," Updating UTXO table";
-  c:count historicalUTXO;
+  c:count utxo;
   spentTXIDS:exec utxoIndex from txInputs;
-  delete from `historicalUTXO where i in spentTXIDS;
-  -1(string .z.p)," Removed ",(string (c-(count historicalUTXO)))," spent transactions.";
+  delete from `utxo where i in spentTXIDS;
+  -1(string .z.p)," Removed ",(string (c-(count utxo)))," spent transactions.";
   t:.z.p;
-  update `u#txuid from `historicalUTXO;
+  update `u#txuid from `utxo;
   -1(string .z.p)," Recreating hash map : ",string (.z.p-t);
  }
