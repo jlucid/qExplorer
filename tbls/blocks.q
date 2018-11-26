@@ -5,7 +5,7 @@ blocks:([]
         size:`float$();
         weight:`float$();
         height:`long$();
-        version:`short$();
+        version:`long$();
         versionHex:();
         merkleroot:();
 	tx:();
