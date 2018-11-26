@@ -2,7 +2,7 @@ txOutputs:([]
         height:`long$();
         txid:();
         outputValue:`float$();
-        addresses:();
+        address:();
         n:`int$();
 	scriptPubKey:()
  );

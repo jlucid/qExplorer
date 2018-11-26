@@ -4,9 +4,11 @@ txInputs:([]
         prevtxid:();
         n:`int$();
         inputValue:`float$();
-        addresses:();
+        address:();
         scriptSig:();
         sequence:`float$();
-	txinwitness:()
+	txinwitness:();
+	spent:0b;
+	utxoIndex:`long$()
  );
 
