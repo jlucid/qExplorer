@@ -31,7 +31,7 @@ rpcPassword:"";
 
 ## qUtil
 
-The qExplorer assumes that your system already has the qutil library installed.
+The qExplorer assumes that your system already has the [qutil](https://github.com/nugend/qutil) library installed.
 
 Once installed, create a soft link named "qExplorer" in your QPATH directory which points to the qExplorer/lib folder. This will enable standard .utl.require function to find the init.q file and load the library. The namespace contains all the supported API calls.
 
@@ -41,8 +41,10 @@ Once installed, create a soft link named "qExplorer" in your QPATH directory whi
 
 # Run the process
 
+The process can be strted from the command line by running the following command
+
 ```C++
-    q)q qExplorer/app/qExplorer.q
+    $)q qExplorer/app/qExplorer.q
 ```
 
 
