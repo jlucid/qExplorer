@@ -1,13 +1,15 @@
 # qExplorer
 
+To run this process you first need to have a locally running Bitcoin full node.
+To install a full node follow the instructions given [here](https://bitcoin.org/en/full-node)
 
-# Download source code using GIT
+## Download source code using GIT
 
 ```C++
 git clone git@github.com:jlucid/qExplorer.git
 ```
 
-# Set Configuration settings
+## Set Configuration settings
 
 Navigate to the config/settings.q file and set the mainDB and refDB file paths.
 These paths will set the location where block data will be stored.
@@ -27,7 +29,7 @@ rpcUsername:"";
 rpcPassword:"";
 ```
 
-# qUtil
+## qUtil
 
 The qExplorer assumes that your system already has the qutil library installed.
 
