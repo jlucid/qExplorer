@@ -9,6 +9,8 @@
 .z.zd:(17;2;6);
 
 .bitcoind.initPass[rpcUsername;rpcPassword]
+// .bitcoind.initHost["add here"];
+
 index:startIndex;
 
 characters:"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
