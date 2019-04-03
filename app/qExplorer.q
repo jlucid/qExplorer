@@ -37,8 +37,8 @@ processBlock:{[Hash]
   ];
   if[applyGroupAttrFreq~1f+(index mod applyGroupAttrFreq);
     .Q.chk[refDB]; 
-    applyAttribute[refDB;;`txidLookup;`parted;`g#] each 1+til count enumerations;
-    applyAttribute[refDB;;`addressLookup;`parted;`g#] each 1+til count enumerations
+    applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
+    applyAttribute[refDB;;`addressLookup;`tag;`g#] each 1+til count enumerations
   ];
  }
 
