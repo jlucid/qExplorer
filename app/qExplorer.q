@@ -13,6 +13,7 @@ index:startIndex;
 
 characters:"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 enumerations:`$characters cross characters;
+(.Q.dd[refDB]`enumerations) set enumerations;
 
 // Function called on a timer to process a block
 // Currently every 10 (chunkSize) blocks we save to disk and clear out tables
@@ -35,9 +36,9 @@ processBlock:{[Hash]
     memoryInfo[]
   ];
   if[applyGroupAttrFreq~1f+(index mod applyGroupAttrFreq);
+    .Q.chk[refDB]; 
     applyAttribute[refDB;;`txidLookup;`parted;`g#] each 1+til count enumerations;
-    applyAttribute[refDB;;`addressLookup;`parted;`g#] each 1+til count enumerations;
-    (.Q.dd[refDB]`enumerations) set enumerations
+    applyAttribute[refDB;;`addressLookup;`parted;`g#] each 1+til count enumerations
   ];
  }
 
