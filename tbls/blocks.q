@@ -8,7 +8,7 @@ blocks:([]
         version:`long$();
         versionHex:();
         merkleroot:();
-	tx:();
+        tx:();
         time:();
         mediantime:();
         nonce:`float$();

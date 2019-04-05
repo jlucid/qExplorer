@@ -27,6 +27,7 @@
 
 
 index:startIndex;
+index:startIndex;
 processBlock:{[Hash]
   Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
   saveBlockInfo[Block];
