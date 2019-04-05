@@ -1,3 +1,6 @@
+characters:"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+enumerations:`$characters cross characters;
+(.Q.dd[refDB]`enumerations) set enumerations;
 
 // Function used to store block data into the blocks schema
 // For the first block, 0, we need to add a value for previousblockhash because its not present

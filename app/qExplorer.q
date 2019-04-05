@@ -1,5 +1,15 @@
-.utl.require"qbitcoind"
+///////////////////////////////////////////////////////////////////////
+//  The below .utl.require can be replaced 
+//  with \l /home/path/to/bitcoind.q instead
+//////////////////////////////////////////////////////////////////////
+.utl.require"qbitcoind"  
+
+///////////////////////////////////////////////////////////////////////
+//  The below .utl.require can be replaced 
+//  with \l /home/path/to/qExplorer/lib/load.q instead
+///////////////////////////////////////////////////////////////////////
 .utl.require"qExplorer"
+
 
 \t 100
 \p 54354
@@ -8,14 +18,15 @@
 \P 12
 .z.zd:(17;2;6);
 
+
+///////////////////////////////////////////////////////////////////////
+// Set username and password along with server details for Bitcoind Node
+///////////////////////////////////////////////////////////////////////
 .bitcoind.initPass[rpcUsername;rpcPassword]
+.bitcoind.initHost[nodeAddress];
+
+
 index:startIndex;
-
-characters:"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-enumerations:`$characters cross characters;
-
-// Function called on a timer to process a block
-// Currently every 10 (chunkSize) blocks we save to disk and clear out tables
 processBlock:{[Hash]
   Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
   saveBlockInfo[Block];
@@ -27,26 +38,32 @@ processBlock:{[Hash]
    saveSplayed[mainDB;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
    saveGroups[refDB;`txidLookup;txidLookup];
    saveGroups[refDB;`addressLookup;addressLookup];
-   clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup
+   .Q.chk[refDB];
+   clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
+   applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
+   applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
+   applyAttribute[refDB;;`addressLookup;`tag;`g#] each 1+til count enumerations
   ];
   if[chunkSize~1f+(index mod chunkSize);
     utxoLocation set utxo;
-    applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
     memoryInfo[]
-  ];
-  if[applyGroupAttrFreq~1f+(index mod applyGroupAttrFreq);
-    applyAttribute[refDB;;`txidLookup;`parted;`g#] each 1+til count enumerations;
-    applyAttribute[refDB;;`addressLookup;`parted;`g#] each 1+til count enumerations;
-    (.Q.dd[refDB]`enumerations) set enumerations
-  ];
+  ]
  }
 
-// Timer function - Checks for new blocks to process
 .z.ts:{[]
   Hash:.bitcoind.getblockhash[index][`result];
-  if[not 0n~Hash;
+  $[0n~Hash;
+     [
+       -1(string .z.p)," Caught up with main chain at index: ",string[index];
+       -1(string .z.p)," Waiting for next block ",string[index];
+       value"\\t 30000";
+       writeFreq:1f
+     ];
+     [
        -1(string .z.p)," Processing Block: ",string[index];
+       if[index>300000;writeFreq:100f];
        processBlock[Hash];
        index+:1
+     ]
    ];
  }

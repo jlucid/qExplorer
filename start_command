@@ -1,0 +1,1 @@
+q app/qExplorer.q >output.log </dev/null &

@@ -1,16 +1,11 @@
-startIndex:0f;
-writeFreq:500f;
-chunkSize:1000f;
-applyGroupAttrFreq:50000f;
+startIndex:0f
+writeFreq:500f
+chunkSize:1000f
 
-// Location of mainDB and refDB
-// Locations need to be different
+mainDB:`:mainDB
+refDB:`:refDB
+utxoLocation:`:utxoDB/utxo
 
-mainDB:`:.;
-refDB:`:.; 
-utxoLocation:`$string[mainDB],"/utxo";
-
-// Credentials for JSON RPC
-
-rpcUsername:"";
-rpcPassword:"";
+rpcUsername:""
+rpcPassword:""
+nodeAddress:""    
