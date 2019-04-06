@@ -27,7 +27,6 @@
 
 
 index:startIndex;
-index:startIndex;
 processBlock:{[Hash]
   Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
   saveBlockInfo[Block];
@@ -41,9 +40,7 @@ processBlock:{[Hash]
    saveGroups[refDB;`addressLookup;addressLookup];
    .Q.chk[refDB];
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
-   applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
-   applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
-   applyAttribute[refDB;;`addressLookup;`tag;`g#] each 1+til count enumerations
+   applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs
   ];
   if[chunkSize~1f+(index mod chunkSize);
     utxoLocation set utxo;
@@ -64,6 +61,10 @@ processBlock:{[Hash]
        -1(string .z.p)," Processing Block: ",string[index];
        if[index>300000;writeFreq:100f];
        processBlock[Hash];
+       if[writeFreq~1f;
+         applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
+         applyAttribute[refDB;;`addressLookup;`tag;`g#] each 1+til count enumerations
+       ];
        index+:1
      ]
    ];
