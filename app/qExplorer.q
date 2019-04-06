@@ -26,6 +26,7 @@
 .bitcoind.initHost[nodeAddress];
 
 
+
 index:startIndex;
 processBlock:{[Hash]
   Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
