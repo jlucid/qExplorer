@@ -49,6 +49,7 @@ processBlock:{[Hash]
   ]
  }
 
+
 .z.ts:{[]
   Hash:.bitcoind.getblockhash[index][`result];
   $[0n~Hash;
@@ -56,11 +57,11 @@ processBlock:{[Hash]
        -1(string .z.p)," Caught up with main chain at index: ",string[index];
        -1(string .z.p)," Waiting for next block ",string[index];
        value"\\t 30000";
-       writeFreq:1f
+       @[`.;`writeFreq:;1f]
      ];
      [
        -1(string .z.p)," Processing Block: ",string[index];
-       if[index>350000;writeFreq:250f];
+       if[index>350000f;@[`.;`writeFreq;:;250f]];
        processBlock[Hash];
        if[writeFreq~1f;
          applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
