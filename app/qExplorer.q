@@ -61,7 +61,7 @@ processBlock:{[Hash]
      ];
      [
        -1(string .z.p)," Processing Block: ",string[index];
-       if[index>350000f;@[`.;`writeFreq;:;250f]];
+       if[(index>350000f) & not (writeFreq~1f);@[`.;`writeFreq;:;250f]];
        processBlock[Hash];
        if[writeFreq~1f;
          applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
