@@ -63,6 +63,7 @@ processBlock:{[Hash]
        -1(string .z.p)," Processing Block: ",string[index];
        if[(index>350000f) & not (writeFreq~1f);@[`.;`writeFreq;:;250f]];
        processBlock[Hash];
+       -1(string .z.p)," Finished Processing Block";       
        index+:1
      ]
    ];
