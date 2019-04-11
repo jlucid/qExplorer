@@ -41,11 +41,9 @@ processBlock:{[Hash]
    saveGroups[refDB;`addressLookup;addressLookup];
    .Q.chk[refDB];
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
-   applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs
-  ];
-  if[chunkSize~1f+(index mod chunkSize);
-    utxoLocation set utxo;
-    memoryInfo[]
+   applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
+   utxoLocation set utxo;
+   memoryInfo[]
   ]
  }
 
