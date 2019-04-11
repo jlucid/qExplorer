@@ -26,8 +26,13 @@
 .bitcoind.initHost[nodeAddress];
 
 
+///////////////////////////////////////////////////////////////////////
+// If startIndex is 0f, being initial block download
+// If startIndex is not 0f, load utxo from last checkpoint and set index
+///////////////////////////////////////////////////////////////////////
+index:loadCheckpoint[startIndex];
 
-index:startIndex;
+
 processBlock:{[Hash]
   Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
   saveBlockInfo[Block];
@@ -41,32 +46,26 @@ processBlock:{[Hash]
    saveGroups[refDB;`addressLookup;addressLookup];
    .Q.chk[refDB];
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
-   applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs
-  ];
-  if[chunkSize~1f+(index mod chunkSize);
-    utxoLocation set utxo;
-    memoryInfo[]
+   applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
+   memoryInfo[];
+   createCheckpoint[]
   ]
  }
-
 
 .z.ts:{[]
   Hash:.bitcoind.getblockhash[index][`result];
   $[0n~Hash;
      [
-       -1(string .z.p)," Caught up with main chain at index: ",string[index];
-       -1(string .z.p)," Waiting for next block ",string[index];
+       printMsg["Caught up with main chain at index: ",string[index]];
+       printMsg["Waiting for next block ",string[index]];
        value"\\t 30000";
-       @[`.;`writeFreq:;1f]
+       @[`.;`writeFreq;:;1f]
      ];
      [
-       -1(string .z.p)," Processing Block: ",string[index];
-       if[index>350000f;@[`.;`writeFreq;:;250f]];
+       printMsg["Processing Block: ",string[index]];
+       if[(index>350000f) & not (writeFreq~1f);@[`.;`writeFreq;:;250f]];
        processBlock[Hash];
-       if[writeFreq~1f;
-         applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
-         applyAttribute[refDB;;`addressLookup;`tag;`g#] each 1+til count enumerations
-       ];
+       printMsg["Finished Processing Block"];
        index+:1
      ]
    ];

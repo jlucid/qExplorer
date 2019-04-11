@@ -47,3 +47,8 @@ memoryInfo:{[]
   0N!.Q.gc[];
   0N!.Q.w[]
  };
+
+printMsg:{[Str]
+  -1(string[.z.p]," "),Str
+ }
+
