@@ -47,9 +47,11 @@ processBlock:{[Hash]
    .Q.chk[refDB];
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
    applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
-   memoryInfo[];
    createCheckpoint[]
-  ]
+  ];
+  if[freeMemFreq~1f+(index mod freeMemFreq);
+   memoryInfo[]
+  ];
  }
 
 .z.ts:{[]
@@ -59,11 +61,11 @@ processBlock:{[Hash]
        printMsg["Caught up with main chain at index: ",string[index]];
        printMsg["Waiting for next block ",string[index]];
        value"\\t 30000";
-       @[`.;`writeFreq;:;1f]
+       @[`.;`writeFreq;:;2f]
      ];
      [
        printMsg["Processing Block: ",string[index]];
-       if[(index>350000f) & not (writeFreq~1f);@[`.;`writeFreq;:;250f]];
+       if[(index>350000f) & not (writeFreq~2f);@[`.;`writeFreq;:;250f]];
        processBlock[Hash];
        printMsg["Finished Processing Block"];
        index+:1

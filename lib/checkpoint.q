@@ -1,11 +1,12 @@
 createCheckpoint:{[]
-  show "Creating checkpoint";
+  printMsg["Creating checkpoint"];
   utxoLocation set utxo;
-  checkpointLocation set ([] lastIndex:enlist index)
+  checkpointLocation set ([] lastIndex:enlist index);
+  printMsg["Finished creating checkpoint"]
  }
 
 loadCheckpoint:{[startIndex]
-  show "Loading checkpoint";
+  printMsg["Loading checkpoint"];
   $[startIndex~0f;
     [
       show"Index in settings.q is 0f, not loading checkpoint";
