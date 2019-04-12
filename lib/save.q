@@ -8,6 +8,7 @@ enumerations:`$characters cross characters;
 saveBlockInfo:{[Block]
   if[0f~index;Block[`result],:(!) . enlist@'(`previousblockhash;"NULL")];
   block:update tx:count tx,height:"j"$height,version:"j"$version,time:"P"$string time,mediantime:"P"$string mediantime from Block[`result];
+  block:update nextblockhash:count[i]#enlist"" from (enlist block) where 10h<>type each nextblockhash;
   insert[`blocks;delete nTx from block];
  }
 
