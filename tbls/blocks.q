@@ -15,7 +15,6 @@ blocks:([]
         bits:();
         difficulty:`float$();
         chainwork:();
-        previousblockhash:();
-        nextblockhash:()
+        previousblockhash:()
  );
 
