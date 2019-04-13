@@ -1,7 +1,6 @@
 .utl.require"qExplorer"
 \t 2000
 \p 23456
-value "\\l ",1 _ string mainDB;
 .z.zd:(17;2;6);
 
 
