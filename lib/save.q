@@ -15,7 +15,6 @@ saveBlockInfo:{[Block]
 saveTransactionInfo:{[Block]
   Height:Block[`result][`height];
   tx:delete version from update vin:count each vin,vout:count each vout from (`height xcols update height:"j"$Height from Block[`result][`tx]);
-  insert[`txidLookup;select txid,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'txid from tx];
   insert[`txInfo;tx];
  }
 
@@ -29,7 +28,6 @@ saveTransactionOutputs:{[Block]
   outputs:select height,txid,outputValue,address,n,scriptPubKey from outputs;
   utxoData:select txuid:(txid,'string[n]),inputValue:outputValue,address from outputs;
   insert[`txOutputs;outputs];
-  insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address from outputs where not address like ""];
   upsert[`utxo;utxoData];
   update utxoIndex:i from `utxo;
   -1(string .z.p)," UTXO Count: ",(string count utxo);
@@ -47,7 +45,6 @@ saveTransactionInputs:{[Block]
   inputs:inputs lj update spent:1b from utxo;
   inputs:update address:@[address;where 0h=type each address;raze/] from inputs;
   inputs:coinbase,:delete txuid from inputs;
-  insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address from inputs where not address like ""];
   insert[`txInputs;inputs];
  }
 
