@@ -1,1 +1,2 @@
-q app/qExplorer.q >output.log </dev/null &
+q app/qExplorer.q </dev/null >output.log 2>&1 &
+q app/refDBGenerator.q </dev/null >output2.log 2>&1 &
