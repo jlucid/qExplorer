@@ -11,6 +11,10 @@ loadCheckpoint:{[startIndex]
   printMsg["Loading checkpoint"];
   utxoLocation:` sv (checkpointDB;`utxoTable);
   checkpointLocation:` sv (checkpointDB;`checkpoint);
+  if[()~key utxoLocation;
+    show "No utxo table found, beginning from index 0f";
+    :0f
+  ];
   lastUTXO:get utxoLocation;
   @[`.;`utxo;:;lastUTXO];
   lastCheck:get checkpointLocation;
