@@ -100,10 +100,6 @@ writeRefDB:{[input]
   } each watchPartitions;
 
   writeRefDB each 0!select height by partition from referenceTracker where not processedRef;
-
-  applyAttribute[refDB;;`txidLookup;`tag;`g#] each 1+til count enumerations;
-  applyAttribute[refDB;;`addressLookup;`tag;`g#] each 1+til count enumerations;
-
   newlyCompleted:distinct exec partition from referenceTracker where chunkSize=(count;i) fby partition, (last;processedRef) fby partition;
   update partitionSet:1b from `referenceTracker where partition in newlyCompleted;
   .Q.chk[refDB]
