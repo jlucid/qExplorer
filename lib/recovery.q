@@ -35,7 +35,7 @@ loadCheckpoint:{[]
     lastUTXO:get utxoLocation;
     @[`.;`utxo;:;lastUTXO];
     lastCheck:get checkpointLocation;
-    :1f+first exec lastIndex from lastCheck
+    @[`.;`startIndex;:;1f+first exec lastIndex from lastCheck]
   ];
 
   if[instanceName~`refDBGenerator;
@@ -45,7 +45,8 @@ loadCheckpoint:{[]
       exit 0
     ];
    lastRef:get refLocation;
-   @[`.;`referenceTracker;:;lastRef]
+   @[`.;`referenceTracker;:;lastRef];
+   :1b
   ];
 
   printMsg["Finished Loading checkpoint"];
