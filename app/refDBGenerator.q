@@ -1,7 +1,9 @@
 .utl.require"qExplorer"
+
 \t 2000
 \p 23456
 .z.zd:(17;2;6);
+instanceName:`refDBGenerator
 
 
 ////////////////////////////////////////////////////

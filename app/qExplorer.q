@@ -12,13 +12,13 @@
 .utl.require"qExplorer"
 
 
-\t 100
+\t 200
 \p 54354
 \g 1
 \c 20 150
 \P 12
 .z.zd:(17;2;6);
-
+instanceName:`qExplorer
 
 ///////////////////////////////////////////////////////////////////////
 // Set username and password along with server details for Bitcoind Node
