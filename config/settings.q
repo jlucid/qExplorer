@@ -5,7 +5,7 @@ freeMemFreq:500f
 
 mainDB:`:mainDB
 refDB:`:refDB
-checkpointDB:`:utxoDB
+checkpointDB:`:checkpointDB
 
 rpcUsername:""
 rpcPassword:""
