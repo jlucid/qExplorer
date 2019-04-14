@@ -42,7 +42,6 @@ processBlock:{[Hash]
   if[writeFreq~1f+(index mod writeFreq);
    updateUTXO[];
    saveSplayed[mainDB;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
-   .Q.chk[refDB];
    clearTable each `blocks`txInfo`txInputs`txOutputs;
    applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
    createCheckpoint[]

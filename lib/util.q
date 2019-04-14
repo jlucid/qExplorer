@@ -21,7 +21,7 @@ saveGroups:{[Location;TableName;Table]
  }
 
 applyAttribute:{[Location;Partition;TableName;Column;Attribute]
-  .[{[x;y;z] @[x;y;z]};(.Q.par[Location;Partition;TableName];Column;Attribute);{[err] "Cannot apply attribute"}];
+  .[{[x;y;z] @[x;y;z]};(.Q.par[Location;Partition;TableName];Column;Attribute);{[err;P] show "Cannot apply attribute: ",string[P]," Error:",err;}[;Partition] ];
  };
 
 sortTblOnDisk:{[Location;Partition;TableName;Col]
