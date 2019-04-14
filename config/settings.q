@@ -5,8 +5,7 @@ freeMemFreq:500f
 
 mainDB:`:mainDB
 refDB:`:refDB
-utxoLocation:`:utxoDB/utxo
-checkpointLocation:`:utxoDB/checkpoint
+checkpointDB:`:utxoDB
 
 rpcUsername:""
 rpcPassword:""

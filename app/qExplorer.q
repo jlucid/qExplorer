@@ -3,6 +3,7 @@
 //  with \l /home/path/to/bitcoind.q instead
 //////////////////////////////////////////////////////////////////////
 .utl.require"qbitcoind"  
+.utl.require"qutil"  
 
 ///////////////////////////////////////////////////////////////////////
 //  The below .utl.require can be replaced 
@@ -27,12 +28,15 @@
 
 
 ///////////////////////////////////////////////////////////////////////
-// If startIndex is 0f, being initial block download
-// If startIndex is not 0f, load utxo from last checkpoint and set index
+// Add an optional command line argument --reboot
+// If present, then being from last successful checkpoint
+// This involves loading the utxo file and setting the startIndex
 ///////////////////////////////////////////////////////////////////////
-index:loadCheckpoint[startIndex];
+.utl.addOpt["recover";1b;{@[`.;`startIndex;:;loadCheckpoint[startIndex]]}];
+.utl.parseArgs[];
 
 
+index:startIndex;
 processBlock:{[Hash]
   Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
   saveBlockInfo[Block];
