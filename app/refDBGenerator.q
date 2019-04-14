@@ -1,4 +1,5 @@
 .utl.require"qExplorer"
+.utl.require"qutil"
 
 \t 2000
 \p 23456
@@ -17,6 +18,14 @@ referenceTracker:([]
   partitionSet:`boolean$();  // Partition contains a 1000 blocks and wont be modified anymore
   processedRef:`boolean$()   // Whether reference data has been generated for block
  )
+
+
+///////////////////////////////////////////////////////////////////////
+// Add an optional command line argument --recover
+// If present, then load last written referenceTracker file
+///////////////////////////////////////////////////////////////////////
+.utl.addOpt["recover";1b;{loadCheckpoint[]}];
+.utl.parseArgs[];
 
 
 ////////////////////////////////////////////////////
