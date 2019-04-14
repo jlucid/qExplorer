@@ -28,7 +28,7 @@
 
 
 ///////////////////////////////////////////////////////////////////////
-// Add an optional command line argument --reboot
+// Add an optional command line argument --recover
 // If present, then being from last successful checkpoint
 // This involves loading the utxo file and setting the startIndex
 ///////////////////////////////////////////////////////////////////////
