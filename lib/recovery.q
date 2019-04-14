@@ -25,5 +25,5 @@ loadCheckpoint:{[]
   lastUTXO:get utxoLocation;
   @[`.;`utxo;:;lastUTXO];
   lastCheck:get checkpointLocation;
-  :1f+first exec lastIndex from lastCheck
+  @[`.;`startIndex;:;1f+first exec lastIndex from lastCheck]
  }
