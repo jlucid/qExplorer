@@ -7,14 +7,21 @@ createCheckpoint:{[]
   printMsg["Finished creating checkpoint"]
  }
 
-loadCheckpoint:{[startIndex]
+loadCheckpoint:{[]
   printMsg["Loading checkpoint"];
+
   utxoLocation:` sv (checkpointDB;`utxoTable);
   checkpointLocation:` sv (checkpointDB;`checkpoint);
-  if[()~key utxoLocation;
-    show "No utxo table found, beginning from index 0f";
-    :0f
+
+  if[()~key checkpointLocation;
+    show "No checkpoint table found for recovery reboot...exiting";
+    exit 0
   ];
+  if[()~key utxoLocation;
+    show "No utxo table found for recovery reboot...exiting";
+    exit 0
+  ];
+
   lastUTXO:get utxoLocation;
   @[`.;`utxo;:;lastUTXO];
   lastCheck:get checkpointLocation;
