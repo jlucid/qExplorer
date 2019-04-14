@@ -12,7 +12,7 @@ $[not ""~BLOCK_HOME:getenv[`BLOCK_HOME];
    loadFile BLOCK_HOME,"/lib/util.q";
    loadFile BLOCK_HOME,"/lib/save.q";
    loadFile BLOCK_HOME,"/lib/explorer.q";
-   loadFile BLOCK_HOME,"/lib/checkpoint.q"
+   loadFile BLOCK_HOME,"/lib/recovery.q"
   ];
   [
    -2 "Error -> Environmental variable BLOCK_HOME not set";

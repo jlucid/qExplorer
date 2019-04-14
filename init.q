@@ -9,4 +9,4 @@
 .utl.require .utl.PKGLOADING,"/lib/util.q"
 .utl.require .utl.PKGLOADING,"/lib/save.q"
 .utl.require .utl.PKGLOADING,"/lib/explorer.q"
-.utl.require .utl.PKGLOADING,"/lib/checkpoint.q"
+.utl.require .utl.PKGLOADING,"/lib/recovery.q"
