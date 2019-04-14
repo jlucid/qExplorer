@@ -32,7 +32,7 @@
 // If present, then being from last successful checkpoint
 // This involves loading the utxo file and setting the startIndex
 ///////////////////////////////////////////////////////////////////////
-.utl.addOpt["recover";1b;{@[`.;`startIndex;:;loadCheckpoint[startIndex]]}];
+.utl.addOpt["recover";1b;{@[`.;`startIndex;:;loadCheckpoint[]]}];
 .utl.parseArgs[];
 
 

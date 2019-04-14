@@ -7,7 +7,7 @@ createCheckpoint:{[]
   printMsg["Finished creating checkpoint"]
  }
 
-loadCheckpoint:{[startIndex]
+loadCheckpoint:{[]
   printMsg["Loading checkpoint"];
 
   utxoLocation:` sv (checkpointDB;`utxoTable);
