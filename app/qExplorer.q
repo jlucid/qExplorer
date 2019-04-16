@@ -14,7 +14,6 @@
 
 \t 200
 \p 54354
-\g 1
 \c 20 150
 \P 12
 .z.zd:(17;2;6);
@@ -61,12 +60,11 @@ processBlock:{[Hash]
      [
        printMsg["Caught up with main chain at index: ",string[index]];
        printMsg["Waiting for next block ",string[index]];
-       value"\\t 30000";
+       value"\\t 5000";
        @[`.;`writeFreq;:;2f]
      ];
      [
        printMsg["Processing Block: ",string[index]];
-       if[(index>350000f) & not (writeFreq~2f);@[`.;`writeFreq;:;250f]];
        processBlock[Hash];
        printMsg["Finished Processing Block"];
        index+:1
