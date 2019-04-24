@@ -12,7 +12,7 @@
 .utl.require"qExplorer"
 
 
-\t 200
+\t 100
 \p 54354
 \c 20 150
 \P 12
