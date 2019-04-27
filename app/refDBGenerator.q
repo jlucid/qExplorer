@@ -24,8 +24,7 @@ referenceTracker:([]
 // Add an optional command line argument --recover
 // If present, then load last written referenceTracker file
 ///////////////////////////////////////////////////////////////////////
-.utl.addOpt["recover";1b;{loadCheckpoint[]}];
-.utl.parseArgs[];
+
 
 
 ////////////////////////////////////////////////////
