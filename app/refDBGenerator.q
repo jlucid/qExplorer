@@ -46,11 +46,11 @@ extractAddrInfo:{[input]
 
 
 ////////////////////////////////////////////////////
-// writeRefDB: Main function alled by the timer
+// writeRefDB: Main function called by the timer
 // It takes as input a partition number and list of block heights
-// and used that information to perform lookups on the mainDB
-// to populated the txidLookup and addressLookup tables
-// These tables are written to disk within same funcion
+// and uses that information to perform lookups on the mainDB
+// to populate the txidLookup and addressLookup tables.
+// These tables are written to disk within same function
 // and internal tables are cleared
 ////////////////////////////////////////////////////
 
@@ -76,7 +76,8 @@ writeRefDB:{[input]
   saveGroups[refDB;`addressLookup;addressLookup];
   @[`.;`addressLookup;0#];
 
-  update processedRef:1b from `referenceTracker where partition in input[`partition], height in input[`height]
+  update processedRef:1b from `referenceTracker where partition in input[`partition], height in input[`height];
+  createCheckpoint[] 
  }
 
 
