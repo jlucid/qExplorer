@@ -39,7 +39,7 @@ loadCheckpoint:{[]
     refLocation:` sv (checkpointDB;`referenceTracker);
     if[()~key refLocation;
       show "No referenceTracker table found for recovery reboot...restarting";
-      startIndex:0f
+      :() 
     ];
    lastRef:get refLocation;
    @[`.;`referenceTracker;:;lastRef];
