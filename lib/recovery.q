@@ -23,9 +23,10 @@ loadCheckpoint:{[]
     utxoLocation:` sv (checkpointDB;`utxoTable);
     checkpointLocation:` sv (checkpointDB;`checkpoint);
 
-    if[()~key checkpointLocation or ()~key utxoLocation;
+    if[(()~key checkpointLocation) or ()~key utxoLocation;
       show "No checkpoint table found for recovery reboot...restarting";
-      startIndex:0f
+      @[`.;`startIndex;:;0f];
+      :()
     ];
 
     lastUTXO:get utxoLocation;
