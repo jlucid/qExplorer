@@ -1,14 +1,17 @@
+/////////////////////////////////////////////////////////
+/// Provide the path & file, and port in the command
+/// line as such --path="databases/mainDB" --port="9000"
+/////////////////////////////////////////////////////////
+
 .utl.require"qutil"
 .utl.addOpt["path";"*";`hdbPath];
 .utl.addOpt["port";"*";`hdbPort];
-.utl.addOpt["file";"*";`hdbFile];
 .utl.parseArgs[];
 
-value"\\l ",hdbPath;
 value"\\p ",hdbPort;
-value"\\l ",hdbFile;
 
 value "\\t 30000"
 .z.ts:{
-  value"\\l ",hdbPath
+  value"\\l ",hdbPath;
+  printMsg["Refreshed ",last[("/" vs hdbPath)]]
  }
