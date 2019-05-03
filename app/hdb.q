@@ -7,7 +7,7 @@
 .utl.require"qutil"
 .utl.addOpt["path";"*";`hdbPath];
 .utl.addOpt["port";"*";`hdbPort];
-.utl.addOpt["port";"*";`hdbFile];
+.utl.addOpt["file";"*";`hdbFile];
 .utl.parseArgs[];
 
 value"\\l ",hdbPath;
