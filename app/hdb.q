@@ -12,9 +12,10 @@
 
 value"\\l ",hdbPath;
 value"\\p ",hdbPort;
+value"\\l ",hdbFile
 
 value "\\t 30000"
 .z.ts:{
-  value"\\l ",(`.[`hdbFile]);
-  show["Refreshed ",last[("/" vs hdbPath)]]
+  value"\\l ",hdbPath;
+  show["Refreshed ",hdbFile]
  }
