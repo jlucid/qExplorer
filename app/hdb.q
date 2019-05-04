@@ -22,8 +22,8 @@ value"\\t 30000"
       :()
     ];
     [
-      `.[`printMsg]["Loading ",hdbFile];
       system"l .";
+      `.[`printMsg]["Loaded ",hdbFile]
     ]
   ];
  }
