@@ -10,7 +10,7 @@
 .utl.addOpt["file";"*";`hdbFile];
 .utl.parseArgs[];
 
-value"\\l ",hdbPath;
+value"\\l ",hdbPath; 
 value"\\p ",hdbPort;
 value"\\l ",hdbFile;
 
@@ -24,7 +24,7 @@ value "\\t 60000";
     ];
     [
       `.[`printMsg]["Loading ",hdbFile];
-      value"\\l ",hdbPath;
+      system"l .";
     ]
   ];
  }
