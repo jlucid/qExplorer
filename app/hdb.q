@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////
 /// Provide the path & file, and port in the command
-/// line as such --path="/opt/q/databases/mainDatabase/" 
+/// line as such --path="/opt/q/" 
 /// --port="9000" --file="mainDB"
 /////////////////////////////////////////////////////////
 
@@ -12,10 +12,19 @@
 
 value"\\l ",hdbPath;
 value"\\p ",hdbPort;
-value"\\l ",hdbFile
+value"\\l ",hdbFile;
 
-value "\\t 30000"
+value "\\t 60000";
+
 .z.ts:{
-  value"\\l ",hdbPath;
-  show["Refreshed ",hdbFile]
+  $[`.[`writeFreq]~1f+(`.[`index] mod `.[`writeFreq]);
+    [
+      `.[`printMsg]["Not loading ",hdbFile," yet, currently writing to disk"];
+      :()
+    ];
+    [
+      `.[`printMsg]["Loading ",hdbFile];
+      value"\\l ",hdbPath;
+    ]
+  ];
  }
