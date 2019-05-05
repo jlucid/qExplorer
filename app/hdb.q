@@ -20,7 +20,7 @@ printMsg:{[str]
 
 value "\\t 30000"
 .z.ts:{
-  $[()~key hsym `$hdbPath,hdbFile;
+  $[()~key hsym `$hdbPath;
     [
       printMsg["Path to ",hdbFile," unavailable, we are currently writing to disk, please wait..."];
     ];
