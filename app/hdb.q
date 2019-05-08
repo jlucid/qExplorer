@@ -8,10 +8,19 @@
 .utl.addOpt["port";"*";`hdbPort];
 .utl.parseArgs[];
 
+value"\\l ",hdbPath;
 value"\\p ",hdbPort;
+value"\\l ",hdbFile;
 
-value "\\t 30000"
+printMsg:{[str]
+  -1(string[.z.p]," "),str
+ };
+
+value "\\t 30000";
+
+f:{@[system;"l .";show]};
+
 .z.ts:{
-  value"\\l ",hdbPath;
-  printMsg["Refreshed ",last[("/" vs hdbPath)]]
- }
+  printMsg["Probing for a new partion, refreshing the following database: ",hdbFile];
+  f[]
+}
