@@ -18,15 +18,10 @@ printMsg:{[str]
   -1(string[.z.p]," "),str
  };
 
-value "\\t 30000"
+value "\\t 30000";
+f:{@[system;"l .";show]};
+
 .z.ts:{
-  $[()~key hsym `$hdbPath;
-    [
-      printMsg["Path to ",hdbFile," unavailable, we are currently writing to disk, please wait..."];
-    ];
-    [
-      system"l .";
-      printMsg["Refreshed the following database: ",hdbFile]
-    ]
-  ];
- }
+  printMsg["Probing for a new partion, refreshing the following database: ",hdbFile];
+  f[]
+}
