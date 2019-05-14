@@ -29,7 +29,7 @@ saveTransactionOutputs:{[Block]
   outputs:select height,txid,outputValue,address,n,scriptPubKey from outputs;
   utxoData:select txuid:(txid,'string[n]),inputValue:outputValue,address from outputs;
   insert[`txOutputs;outputs];
-  insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address from outputs where not address like ""];
+  insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address,BitMEX:{?[x like "3BMEX";1b;0b]}each 5#'address from outputs where not address like ""];
   upsert[`utxo;utxoData];
   update utxoIndex:i from `utxo;
   -1(string .z.p)," UTXO Count: ",(string count utxo);
@@ -47,7 +47,7 @@ saveTransactionInputs:{[Block]
   inputs:inputs lj update spent:1b from utxo;
   inputs:update address:@[address;where 0h=type each address;raze/] from inputs;
   inputs:coinbase,:delete txuid from inputs;
-  insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address from inputs where not address like ""];
+  insert[`addressLookup;select address,height,partition:heightToPartition[index;chunkSize],tag:`$-3#'address,BitMEX:{?[x like "3BMEX";1b;0b]}each 5#'address from inputs where not address like ""];
   insert[`txInputs;inputs];
  }
 
