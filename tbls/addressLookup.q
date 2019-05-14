@@ -1,5 +1,6 @@
 addressLookup:([] address:();
              height:`long$();
              partition:`int$();
-             tag:`symbol$()
+             tag:`symbol$();
+             bitmex:`boolean$()
  )
