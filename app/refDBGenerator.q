@@ -19,10 +19,8 @@ referenceTracker:([]
   processedRef:`boolean$()   // Whether reference data has been generated for block
  )
 
-
 ///////////////////////////////////////////////////////////////////////
-// Add an optional command line argument --recover
-// If present, then load last written referenceTracker file
+// Automatically load the most recent checkpoint
 ///////////////////////////////////////////////////////////////////////
 
 loadCheckpoint[];
