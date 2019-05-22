@@ -25,7 +25,7 @@ referenceTracker:([]
 // If present, then load last written referenceTracker file
 ///////////////////////////////////////////////////////////////////////
 
-
+loadCheckpoint[];
 
 ////////////////////////////////////////////////////
 // extractTxidInfo: Function used to extract data from mainDB to populate txidLookup
