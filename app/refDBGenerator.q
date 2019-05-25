@@ -1,7 +1,7 @@
 .utl.require"qExplorer"
 .utl.require"qutil"
 
-\t 2000
+\t 5000
 \p 23456
 .z.zd:(17;2;6);
 instanceName:`refDBGenerator
@@ -19,10 +19,8 @@ referenceTracker:([]
   processedRef:`boolean$()   // Whether reference data has been generated for block
  )
 
-
 ///////////////////////////////////////////////////////////////////////
-// Add an optional command line argument --recover
-// If present, then load last written referenceTracker file
+// Automatically load the most recent checkpoint
 ///////////////////////////////////////////////////////////////////////
 
 loadCheckpoint[];
@@ -57,8 +55,7 @@ writeRefDB:{[input]
   
   show "Processing Partition: ",string[input`partition]," Min Height: ",string[min input`height], " Max Height: ",string[max input`height];
 
-  heightsCol:hsym `$string[`.[`mainDB]], "/",string[input`partition], "/txOutputs/height";
-  if[()~key heightsCol;
+  if[()~key hsym `$string[`.[`mainDB]], "/",string[input`partition], "/txOutputs/height";
     show "No txOutputs table present yet";
     :()
   ];
