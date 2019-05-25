@@ -60,7 +60,7 @@ writeRefDB:{[input]
     :()
   ];
 
-  if[not `p~attr get heightsCol;
+  if[not `p~attr get hsym `$string[`.[`mainDB]], "/",string[input`partition], "/txOutputs/height";
    show"No parted attribute present, waiting...";
    :()
   ];
