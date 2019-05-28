@@ -1,6 +1,5 @@
 blocks:([]
         hash:();
-        confirmations:`float$();
         strippedsize:`float$();
         size:`float$();
         weight:`float$();
