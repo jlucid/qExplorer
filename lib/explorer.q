@@ -27,7 +27,7 @@
  tx:inputs lj outputs;
  coinbaseReward:select height,outputValue from tx where inputValue=0;
  txReward:select abs sum fee by height from update fee:(outputValue-inputValue) from tx where inputValue>0;
- update miningRevenue:outputValue+fee from `height xasc coinbaseReward lj txReward
+ update coinbaseReward:outputValue-fee from `height xasc coinbaseReward lj txReward
  }
 
 //Sewit addresses where introduced in block 481824 (partition 481)
