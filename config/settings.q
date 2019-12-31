@@ -1,11 +1,16 @@
-writeFreq:500f
+\t 100
+\p 54355
+\g 1
+\c 20 150
+\P 12
+.z.zd:(17;2;6);
+
+startIndex:0f
+writeFreq:1000f
 chunkSize:1000f
-freeMemFreq:500f
+freeMemFreq:1000f
+dbLocation:""
 
-mainDB:`:mainDB
-refDB:`:refDB
-checkpointDB:`:checkpointDB
-
-rpcUsername:""
+rpcUsername:"";
 rpcPassword:""
 nodeAddress:""    
