@@ -12,13 +12,15 @@
 .utl.require"qExplorer"
 
 
-\t 100
-\p 54354
-\g 1
-\c 20 150
-\P 12
-.z.zd:(17;2;6);
-instanceName:`qExplorer
+///////////////////////////////////////////////////////////////////////
+// Set database locations
+///////////////////////////////////////////////////////////////////////
+mainDB:hsym `$dbLocation,"mainDB"
+checkpointDB:`dbLocation,"checkpointDB"
+refDB:hsym `$dbLocation,"refDB"
+addrDB:` sv refDB,`addrDB
+txidDB:` sv refDB,`txidDB
+utxoDB::` sv refDB,`utxoDB
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -43,11 +45,12 @@ processBlock:{[Hash]
   saveTransactionOutputs[Block];
   saveTransactionInputs[Block];
   if[writeFreq~1f+(index mod writeFreq);
-   updateUTXO[];
+   openLevelDB["addrDB";addrDB];
+   openLevelDB["txidDB";txidDB];
+   openLevelDB["utxoDB";utxoDB];
+   saveToLevelDB each ("txidDB";"addrDB";"utxoDB");
+   closeLevelDB each ("txidDB";"addrDB";"utxoDB");
    saveSplayed[mainDB;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
-   saveGroups[refDB;`txidLookup;txidLookup];
-   saveGroups[refDB;`addressLookup;addressLookup];
-   .Q.chk[refDB];
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
    applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
    createCheckpoint[]
