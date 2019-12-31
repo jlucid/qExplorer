@@ -16,7 +16,7 @@
 // Set database locations
 ///////////////////////////////////////////////////////////////////////
 mainDB:hsym `$dbLocation,"mainDB"
-checkpointDB:`dbLocation,"checkpointDB"
+checkpointDB:`$dbLocation,"checkpointDB"
 refDB:hsym `$dbLocation,"refDB"
 addrDB:` sv refDB,`addrDB
 txidDB:` sv refDB,`txidDB
@@ -48,7 +48,9 @@ processBlock:{[Hash]
    openLevelDB["addrDB";addrDB];
    openLevelDB["txidDB";txidDB];
    openLevelDB["utxoDB";utxoDB];
-   saveToLevelDB each ("txidDB";"addrDB";"utxoDB");
+   saveToLevelDB["utxoDB"];
+   insert[`addressLookup;select address,height from `.[`txInputs] where not address like ""];
+   saveToLevelDB each ("txidDB";"addrDB");
    closeLevelDB each ("txidDB";"addrDB";"utxoDB");
    saveSplayed[mainDB;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
