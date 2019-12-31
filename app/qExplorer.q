@@ -17,10 +17,9 @@
 ///////////////////////////////////////////////////////////////////////
 mainDB:hsym `$dbLocation,"mainDB"
 checkpointDB:`$dbLocation,"checkpointDB"
-refDB:hsym `$dbLocation,"refDB"
-addrDB:` sv refDB,`addrDB
-txidDB:` sv refDB,`txidDB
-utxoDB::` sv refDB,`utxoDB
+addrDB:dbLocation,"/refDB/addrDB"
+txidDB:dbLocation,"/refDB/txidDB"
+utxoDB:dbLocation,"/refDB/utxoDB"
 
 
 ///////////////////////////////////////////////////////////////////////
