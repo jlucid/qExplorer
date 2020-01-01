@@ -4,7 +4,7 @@ p)databases = {}
 
 p)def createDB(dbName,path):
     global databases
-    databases[bytes(dbName,'utf-8')] =  plyvel.DB(path, create_if_missing=True, error_if_exists=False)
+    databases[bytes(dbName,'utf-8')] =  plyvel.DB(path, create_if_missing=True)
     return dbName
 
 p)def put(dbName,Key,Value):
@@ -22,9 +22,16 @@ p)def delete(dbName,Key):
 
 p)def writeBatch(dbName,Keys,Values):
     global databases
-    wb = databases[bytes(dbName,'utf-8')].write_batch(sync=True)
+    wb = databases[bytes(dbName,'utf-8')].write_batch()
     for k,v in zip(Keys,Values):
       wb.put(bytes(k,'utf-8'),bytes(v,'utf-8'))
+    wb.write()
+
+p)def deleteBatch(dbName,Keys):
+    global databases
+    wb = databases[bytes(dbName,'utf-8')].write_batch()
+    for k in Keys:
+      wb.delete(bytes(k,'utf-8'))
     wb.write()
 
 p)def closeDB(dbName):
@@ -50,6 +57,7 @@ q).plyvel.put:.p.get[`put;<]
 q).plyvel.get:.p.get[`get;<]
 q).plyvel.delete:.p.get[`delete;<]
 q).plyvel.writeBatch:.p.get[`writeBatch;<]
+q).plyvel.deleteBatch:.p.get[`deleteBatch;<]
 q).plyvel.isClosed:.p.get[`isClosed;<]
 q).plyvel.printDB:.p.get[`printDB;<]
 

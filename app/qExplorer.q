@@ -37,6 +37,7 @@ utxoDB:dbLocation,"/refDB/utxoDB"
 loadCheckpoint[];
 
 index:startIndex;
+
 processBlock:{[Hash]
   Block:.bitcoind.getblock[Hash;(enlist `verbosity)!(enlist 2)];
   saveBlockInfo[Block];
@@ -44,22 +45,42 @@ processBlock:{[Hash]
   saveTransactionOutputs[Block];
   saveTransactionInputs[Block];
   if[writeFreq~1f+(index mod writeFreq);
+
+   printMsg["Opening addrDB"];
    openLevelDB["addrDB";addrDB];
+
+   printMsg["Opening txidDB"]
    openLevelDB["txidDB";txidDB];
+
+   printMsg["Opening utxoDB"]
    openLevelDB["utxoDB";utxoDB];
-   saveToLevelDB["utxoDB"];
+
+   printMsg["inserting"];
    insert[`addressLookup;select address,height from `.[`txInputs] where not address like ""];
-   saveToLevelDB each ("txidDB";"addrDB");
+
+   printMsg["Saving utxoDB"];
+   saveToLevelDB["utxoDB"];
+
+   printMsg["Saving txidDB"];
+   saveToLevelDB["txidDB"];
+
+   printMsg["Saving addrDB"];
+   saveToLevelDB["addrDB"];
+
    closeLevelDB each ("txidDB";"addrDB";"utxoDB");
+
+   printMsg["Saving tables to disk and clearing"];
    saveSplayed[mainDB;heightToPartition[index;chunkSize];] each `blocks`txInfo`txInputs`txOutputs;
    clearTable each `blocks`txInfo`txInputs`txOutputs`txidLookup`addressLookup;
    applyAttribute[mainDB;heightToPartition[index;chunkSize];;`height;`p#] each `blocks`txInfo`txInputs`txOutputs;
-   createCheckpoint[]
+   createCheckpoint[];
+   printMsg["Finished saving"]
   ];
   if[freeMemFreq~1f+(index mod freeMemFreq);
    memoryInfo[]
   ];
  }
+
 
 .z.ts:{[]
   Hash:.bitcoind.getblockhash[index][`result];
